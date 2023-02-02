@@ -16,13 +16,13 @@ class Jugador(pygame.Rect):
        self.rectangulo = pygame.Rect(pos_x, pos_y, ANCHO_PALETA, ALTO_PALETA)
 
     def pintame(self, pantalla):
-        pygame.display.rect(pantalla, CBLANCO, self.rectangulo)
+        pygame.draw.rect(pantalla, CBLANCO, self.rectangulo)
 
 class Pelota(pygame.Rect):
     def __init__(self, x, y):
         self.rectangulo = pygame.Rect(x, y, TAM_PELOTA, TAM_PELOTA)
     def pintame(self, pantalla):
-        pygame.display.rect(pantalla, CBLANCO, self.rectangulo)
+        pygame.draw.rect(pantalla, CBLANCO, self.rectangulo)
 
 class Pong:
 
@@ -38,7 +38,7 @@ class Pong:
 
         pelota_x = (ANCHO-TAM_PELOTA)/2
         pelota_y = (ALTO-TAM_PELOTA)/2
-        self.pelota = Pelota()
+        self.pelota = Pelota(pelota_x,pelota_y)
 
     def bucle_principal(self):
         salir = False
