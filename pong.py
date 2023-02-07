@@ -20,17 +20,20 @@ TAM_PELOTA = 10
 class Jugador(pygame.Rect):
     ARRIBA = True
     ABAJO = False
+    VELOCIDAD = 10
     def __init__(self,pos_x, pos_y):
-       self.rectangulo = pygame.Rect(pos_x, pos_y, ANCHO_PALETA, ALTO_PALETA)
+        super(Jugador, self).__init__(pos_x, pos_y, ANCHO_PALETA, ALTO_PALETA)
+        
+        
 
     def pintame(self, pantalla):
-        pygame.draw.rect(pantalla, CBLANCO, self.rectangulo)
+        pygame.draw.rect(pantalla, CBLANCO, self)
 
     def muevete(self, direccion):
         if direccion == self.ARRIBA:
-            print("MUEVETE ARRIBA")
+            self.y = self.y - self.VELOCIDAD
         else:
-            print("MUEVETE HACIA ABAJO")
+            self.y = self.y + self.VELOCIDAD
 
 
 class Pelota(pygame.Rect):
