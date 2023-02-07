@@ -1,8 +1,7 @@
 import pygame
-import pygame.key
 from random import randint
 
-pygame.display.set_caption("Juego Pong")
+pygame.display.set_caption("Gokupong")
 ANCHO = 640
 ALTO = 480
 FPS = 60
@@ -57,13 +56,17 @@ class Pelota(pygame.Rect):
     def mover(self):
         self.x = self.x + self.velocidad_x
         self.y = self.y - self.velocidad_y
+        if self.y <= 0:
+            self.y = 0
+            self.velocidad_y = -self.velocidad_y
+        if self.y >= ALTO-TAM_PELOTA:
+            self.y = ALTO-TAM_PELOTA
+            self.velocidad_y = -self.velocidad_y
 
-
-class Pelotita(Pelota):
-    def __init__(self):
-        super().__init__(0, 0)
-        self.width = 66
-        self.velocidad = 3
+    def colisionar(self, jugador):
+        # jugador.colliderect(self)
+        if self.colliderect(jugador):
+            self.velocidad_x = -self.velocidad_x
 
 
 class Pong:
@@ -83,7 +86,6 @@ class Pong:
         self.pelota = Pelota(pelota_x, pelota_y)
 
     def bucle_principal(self):
-
         salir = False
         while not salir:
 
@@ -122,9 +124,11 @@ class Pong:
 
             self.jugador1.pintame(self.pantalla)
             self.jugador2.pintame(self.pantalla)
+            self.pinta_red()
 
             self.pelota.mover()
-            self.pinta_red()
+            self.pelota.colisionar(self.jugador1)
+            self.pelota.colisionar(self.jugador2)
 
             self.pelota.pintame(self.pantalla)
             pygame.display.flip()
