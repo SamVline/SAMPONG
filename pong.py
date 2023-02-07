@@ -20,7 +20,7 @@ TAM_PELOTA = 10
 class Jugador(pygame.Rect):
     ARRIBA = True
     ABAJO = False
-    VELOCIDAD = 10
+    VELOCIDAD = 1
     def __init__(self,pos_x, pos_y):
         super(Jugador, self).__init__(pos_x, pos_y, ANCHO_PALETA, ALTO_PALETA)
         
@@ -32,8 +32,13 @@ class Jugador(pygame.Rect):
     def muevete(self, direccion):
         if direccion == self.ARRIBA:
             self.y = self.y - self.VELOCIDAD
+            if self.y < 0:
+                self.y = 0
+                    
         else:
             self.y = self.y + self.VELOCIDAD
+            if self.y > ALTO-ALTO_PALETA:
+                self.y = ALTO-ALTO_PALETA
 
 
 class Pelota(pygame.Rect):
@@ -64,20 +69,27 @@ class Pong:
 
         salir = False
         while not salir:
+
+            pygame.key.get_pressed()
+
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
                     salir = True
+                
                 if evento.type == pygame.KEYDOWN:
                     if evento.key == pygame.K_ESCAPE:
                         salir = True
-                    elif evento.key == pygame.K_a:
-                        self.jugador1.muevete(Jugador.ARRIBA)
-                    elif evento.key == pygame.K_z:
-                        self.jugador1.muevete(Jugador.ABAJO)
-                    elif evento.key == pygame.K_k:
-                        self.jugador2.muevete(Jugador.ARRIBA)
-                    elif evento.key == pygame.K_m:
-                        self.jugador2.muevete(Jugador.ABAJO)
+
+            estado_teclas = pygame.key.get_pressed()
+
+            if estado_teclas[pygame.K_a]:
+                self.jugador1.muevete(Jugador.ARRIBA)
+            if estado_teclas[pygame.K_z]:
+                self.jugador1.muevete(Jugador.ABAJO)
+            if estado_teclas[pygame.K_k]:
+                self.jugador2.muevete(Jugador.ARRIBA)
+            if estado_teclas[pygame.K_m]:
+                self.jugador2.muevete(Jugador.ABAJO)
                 #Dibujo rectángulo palas    
             pygame.draw.rect(self.pantalla,CBLANCO, self.jugador1)
             pygame.draw.rect(self.pantalla,CBLANCO, self.jugador2)
