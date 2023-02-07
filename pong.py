@@ -12,16 +12,26 @@ VERDE = (100, 250, 200)
 
 ANCHO_PALETA = 10
 ALTO_PALETA = 40
-MARGEN_LATERAL = 40
+MARGEN_LATERAL = 30
+MARGEN = 7
 
 TAM_PELOTA = 10
 
 class Jugador(pygame.Rect):
+    ARRIBA = True
+    ABAJO = False
     def __init__(self,pos_x, pos_y):
        self.rectangulo = pygame.Rect(pos_x, pos_y, ANCHO_PALETA, ALTO_PALETA)
 
     def pintame(self, pantalla):
         pygame.draw.rect(pantalla, CBLANCO, self.rectangulo)
+
+    def muevete(self, direccion):
+        if direccion == self.ARRIBA:
+            print("MUEVETE ARRIBA")
+        else:
+            print("MUEVETE HACIA ABAJO")
+
 
 class Pelota(pygame.Rect):
     def __init__(self, x, y):
@@ -34,24 +44,12 @@ class Pong:
         print("Construyendo un objeto de la clase Pong")
         pygame.init()
         self.pantalla = pygame.display.set_mode((ANCHO, ALTO))
-    ################## AÑADIMOS EL COLOR TRAS DEFINIR EL TAMAÑO
-        pygame.Surface.fill(self.pantalla, AZUL)
+        
         
         pos_y = (ALTO-ALTO_PALETA)/2
         pos_x_2 = ANCHO-MARGEN_LATERAL-ANCHO_PALETA
     
-    ##LINEAS DE CAMPO
-    ##CENTRAL SUPERIOR
-        pygame.draw.lines(self.pantalla, (VERDE), True, [(ANCHO,40),(-ANCHO,40)], 2)   
-    ##CENTRAL INFERIOR
-        pygame.draw.lines(self.pantalla, (VERDE), True, [(ANCHO,ALTO-40),(-ANCHO,ALTO-40)], 2)  
-    
-##RED DE SEPARACION
-        for i in range(0, ALTO, ALTO//20):
-            if i % 2 == 1:
-                    continue
-            pygame.draw.line(self.pantalla, (VERDE), [(ANCHO//2)-1, i], [(ANCHO//2)-1, i + 15], 2)
-#############################
+
         self.jugador1 = Jugador(MARGEN_LATERAL,pos_y)
         self.jugador2 = Jugador(pos_x_2, pos_y)
 
@@ -60,23 +58,49 @@ class Pong:
         self.pelota = Pelota(pelota_x,pelota_y)
 
     def bucle_principal(self):
+
         salir = False
         while not salir:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
                     salir = True
-                if evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE:
+                if evento.type == pygame.KEYDOWN:
+                    if evento.key == pygame.K_ESCAPE:
                         salir = True
-
-        
-#Dibujo rectángulo     
+                    elif evento.key == pygame.K_a:
+                        self.jugador1.muevete(Jugador.ARRIBA)
+                    elif evento.key == pygame.K_z:
+                        self.jugador1.muevete(Jugador.ABAJO)
+                    elif evento.key == pygame.K_k:
+                        self.jugador2.muevete(Jugador.ARRIBA)
+                    elif evento.key == pygame.K_m:
+                        self.jugador2.muevete(Jugador.ABAJO)
+                #Dibujo rectángulo palas    
             pygame.draw.rect(self.pantalla,CBLANCO, self.jugador1)
             pygame.draw.rect(self.pantalla,CBLANCO, self.jugador2)
-            
+                ##fondo
+            pygame.Surface.fill(self.pantalla, AZUL)
+                ##LINEAS DE CAMPO
+                            ##CENTRAL SUPERIOR
+            pygame.draw.lines(self.pantalla, (VERDE), True, [(ANCHO,MARGEN_LATERAL),(-ANCHO,MARGEN_LATERAL)], 2)   
+                            ##CENTRAL INFERIOR
+            pygame.draw.lines(self.pantalla, (VERDE), True, [(ANCHO,ALTO-MARGEN_LATERAL),(-ANCHO,ALTO-MARGEN_LATERAL)], 2)  
+
             self.jugador1.pintame(self.pantalla)
             self.jugador2.pintame(self.pantalla)
+
+            self.pinta_red()
+
             self.pelota.pintame(self.pantalla)
             pygame.display.flip()
+             
+    def pinta_red(self):
+        tramo_pintado = 15
+        tramo_vacio = 15
+        ancho_red = 4
+        pos_x= ANCHO/2+1 - ancho_red/2
+        for y in range(MARGEN, ALTO-MARGEN, tramo_pintado+tramo_vacio):
+                pygame.draw.line(self.pantalla, VERDE, (pos_x, y), (pos_x, y+tramo_pintado), ancho_red)
 
 
 if __name__ == "__main__":
