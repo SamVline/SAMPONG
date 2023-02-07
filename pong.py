@@ -4,6 +4,7 @@ import pygame.key
 pygame.display.set_caption("Juego Pong")
 ANCHO = 640
 ALTO = 480
+FPS = 60
 
 CBLANCO = (255, 255, 180)
 AZUL = (10, 100, 100)
@@ -20,7 +21,7 @@ TAM_PELOTA = 10
 class Jugador(pygame.Rect):
     ARRIBA = True
     ABAJO = False
-    VELOCIDAD = 1
+    VELOCIDAD = 5
     def __init__(self,pos_x, pos_y):
         super(Jugador, self).__init__(pos_x, pos_y, ANCHO_PALETA, ALTO_PALETA)
         
@@ -49,9 +50,9 @@ class Pelota(pygame.Rect):
 
 class Pong:
     def __init__(self):
-        print("Construyendo un objeto de la clase Pong")
         pygame.init()
         self.pantalla = pygame.display.set_mode((ANCHO, ALTO))
+        self.reloj = pygame.time.Clock()
         
         
         pos_y = (ALTO-ALTO_PALETA)/2
@@ -121,5 +122,6 @@ class Pong:
 if __name__ == "__main__":
     juego = Pong()
     juego.bucle_principal()
+    self.reloj.tick(FPS)
 
 
