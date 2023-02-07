@@ -4,7 +4,7 @@ import pygame.key
 pygame.display.set_caption("Juego Pong")
 ANCHO = 640
 ALTO = 480
-FPS = 60
+FPS = 120
 
 CBLANCO = (255, 255, 180)
 AZUL = (10, 100, 100)
@@ -52,7 +52,7 @@ class Pong:
     def __init__(self):
         pygame.init()
         self.pantalla = pygame.display.set_mode((ANCHO, ALTO))
-        self.reloj = pygame.time.Clock()
+        self.reloj = pygame.time.Clock() 
         
         
         pos_y = (ALTO-ALTO_PALETA)/2
@@ -109,6 +109,7 @@ class Pong:
 
             self.pelota.pintame(self.pantalla)
             pygame.display.flip()
+            self.reloj.tick(FPS)
              
     def pinta_red(self):
         tramo_pintado = 15
@@ -122,6 +123,7 @@ class Pong:
 if __name__ == "__main__":
     juego = Pong()
     juego.bucle_principal()
-    self.reloj.tick(FPS)
+
+
 
 
