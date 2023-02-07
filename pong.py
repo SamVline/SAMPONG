@@ -1,5 +1,7 @@
 import pygame 
+import pygame.key
 
+pygame.display.set_caption("Juego Pong")
 ANCHO = 640
 ALTO = 480
 
@@ -27,6 +29,7 @@ class Pelota(pygame.Rect):
         pygame.draw.rect(pantalla, CBLANCO, self.rectangulo)
 
 class Pong:
+    
 
     def __init__(self):
         print("Construyendo un objeto de la clase Pong")
@@ -40,9 +43,20 @@ class Pong:
         pos_x_2 = ANCHO-MARGEN_LATERAL-ANCHO_PALETA
 
        
-    ##  PARA HACER LINEAS CONTIGUAS, NO CUENTA
-    ##  pygame.draw.lines(self.pantalla, (0,0,255), True, [(52, 5), (20, 90), (52,20)], 2)
-        pygame.draw.aaline(self.pantalla, (0,0,255), [(ANCHO/2)-1, 0], [(ANCHO/2)-1, ALTO])
+    ##  PARA HACER LINEAS CONTIGUAS
+ 
+      ##ESTA ESTA BIEN##  pygame.draw.aaline(self.pantalla, (0,0,255), [(ANCHO/2)-1, 0], [(ANCHO/2)-1, ALTO])
+    ##    pygame.draw.lines(self.pantalla, (0.200,0), True, [(ANCHO/2)-1, 0], [(ANCHO/2)-1, ALTO])
+    ##linea de separación
+        pygame.draw.lines(self.pantalla, (220,0,0), True, [((ANCHO/2)-1,ALTO), ((ANCHO/2)-1,0)], 4)
+    ##LINEAS DE CAMPO
+            ##CENTRAL SUPERIOR
+        pygame.draw.lines(self.pantalla, (180,0,0), True, [(ANCHO,40),(-ANCHO,40)], 2)   
+            ##CENTRAL INFERIOR
+        pygame.draw.lines(self.pantalla, (180,0,0), True, [(ANCHO,ALTO-40),(-ANCHO,ALTO-40)], 2)  
+
+       # pygame.draw.lines(self.pantalla, (180,0,0), True, [(ANCHO,20),(-ANCHO,40)], 2)  
+
 
         self.jugador1 = Jugador(MARGEN_LATERAL,pos_y)
         self.jugador2 = Jugador(pos_x_2, pos_y)
@@ -57,6 +71,17 @@ class Pong:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
                     salir = True
+                if evento.type == pygame.KEYDOWN:
+                    if evento.key == pygame.K_ESCAPE:
+                        salir = True
+
+
+                    
+                
+            
+
+
+        
                 #Dibujo rectángulo
             pygame.draw.rect(self.pantalla,CBLANCO, self.jugador1)
             pygame.draw.rect(self.pantalla,CBLANCO, self.jugador2)
