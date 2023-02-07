@@ -4,7 +4,9 @@ ANCHO = 640
 ALTO = 480
 
 CBLANCO = (255, 255, 180)
-
+#### Ejercicio 2, añadir color
+GRAY = (41, 81, 41)
+#####
 ANCHO_PALETA = 10
 ALTO_PALETA = 40
 MARGEN_LATERAL = 40
@@ -30,8 +32,17 @@ class Pong:
         print("Construyendo un objeto de la clase Pong")
         pygame.init()
         self.pantalla = pygame.display.set_mode((ANCHO, ALTO))
+    ################## AÑADIMOS EL COLOR TRAS DEFINIR EL TAMAÑO
+        pygame.Surface.fill(self.pantalla, GRAY)
+    ##################
+        
         pos_y = (ALTO-ALTO_PALETA)/2
         pos_x_2 = ANCHO-MARGEN_LATERAL-ANCHO_PALETA
+
+       
+    ##  PARA HACER LINEAS CONTIGUAS, NO CUENTA
+    ##  pygame.draw.lines(self.pantalla, (0,0,255), True, [(52, 5), (20, 90), (52,20)], 2)
+        pygame.draw.aaline(self.pantalla, (0,0,255), [(ANCHO/2)-1, 0], [(ANCHO/2)-1, ALTO])
 
         self.jugador1 = Jugador(MARGEN_LATERAL,pos_y)
         self.jugador2 = Jugador(pos_x_2, pos_y)
@@ -49,6 +60,7 @@ class Pong:
                 #Dibujo rectángulo
             pygame.draw.rect(self.pantalla,CBLANCO, self.jugador1)
             pygame.draw.rect(self.pantalla,CBLANCO, self.jugador2)
+            
             self.jugador1.pintame(self.pantalla)
             self.jugador2.pintame(self.pantalla)
             self.pelota.pintame(self.pantalla)
