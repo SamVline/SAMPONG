@@ -56,6 +56,8 @@ class Pelota(pygame.Rect):
     def mover(self):
         self.x = self.x + self.velocidad_x
         self.y = self.y - self.velocidad_y
+        if self.velocidad_x + self.velocidad_y == 0:
+
         if self.y <= 0:
             self.y = 0
             self.velocidad_y = -self.velocidad_y
@@ -87,6 +89,11 @@ class Pong:
 
     def bucle_principal(self):
         salir = False
+        empezar = False
+
+        if empezar == False:
+            print("Pulsa Espacio para empezar")
+
         while not salir:
 
             pygame.key.get_pressed()
@@ -98,6 +105,9 @@ class Pong:
                 if evento.type == pygame.KEYDOWN:
                     if evento.key == pygame.K_ESCAPE:
                         salir = True
+                if evento.type == pygame.KEYDOWN:
+                    if evento.key == pygame.K_SPACE:
+                        empezar = True
 
             estado_teclas = pygame.key.get_pressed()
 
@@ -126,7 +136,9 @@ class Pong:
             self.jugador2.pintame(self.pantalla)
             self.pinta_red()
 
-            self.pelota.mover()
+            if empezar == True:
+                self.pelota.mover()
+
             self.pelota.colisionar(self.jugador1)
             self.pelota.colisionar(self.jugador2)
 
