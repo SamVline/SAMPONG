@@ -71,6 +71,12 @@ class Pelota(pygame.Rect):
             self.velocidad_x = -self.velocidad_x
 
 
+class Marcador:
+
+    def __init__(self):
+        self.puntuacion = [0, 0]
+
+
 class Pong:
     def __init__(self):
         pygame.init()
